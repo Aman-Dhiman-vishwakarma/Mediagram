@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoSend } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -15,8 +15,8 @@ const ChatPage = () => {
   const {onlineUsers} = useSelector((store)=>store.chat)
   const [loading, setLoading] = useState(false);
   const [messageText, setMessageText] = useState("")
+  const scroll = useRef();
 
-  console.log(selectedMessageUser)
   
   useEffect(()=>{
     const getUserMessages = async () => {
@@ -57,6 +57,10 @@ const ChatPage = () => {
   console.log(messageText)
  }
 
+ useEffect(()=>{
+  scroll.current?.scrollIntoView({behavior:"smooth"})
+}, [messages])
+
   return (
     <div className="h-full">
       <div className="max-w-xl mx-auto flex flex-col h-full py-2">
@@ -78,9 +82,9 @@ const ChatPage = () => {
             </div>
           </Link>
         </div>
-        <div className="flex-1 overflow-y-auto py-2">
+        <div className="flex-1 overflow-y-auto no-scrollbar py-2">
           {!loading ? (messages ? messages?.map((item, index) => (
-            <div key={index} className={`flex py-1 px-1 font-semibold ${currentUser?._id === item?.senderId ? "justify-end" : "justify-start"}`}><span className={`py-1 px-2 ${currentUser?._id === item?.senderId ? "bg-purple-600 text-white" : "bg-gray-200"} rounded-md`}>{item?.message}</span></div>
+            <div ref={scroll} key={index} className={`flex py-1 px-1 font-semibold ${currentUser?._id === item?.senderId ? "justify-end" : "justify-start"}`}><span className={`py-1 px-2 ${currentUser?._id === item?.senderId ? "bg-purple-600 text-white" : "bg-gray-200"} rounded-md`}>{item?.message}</span></div>
           )) : <div className="flex items-center justify-center gap-2 mt-20">Messages not found</div>) : <div className="flex items-center justify-center gap-2 mt-20"><span className="loading loading-spinner loading-sm"></span> Loading...</div>
         }
         </div>

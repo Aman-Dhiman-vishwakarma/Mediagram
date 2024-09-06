@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "../redux/postSlice";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { setCurrentUser } from "../redux/authSlice";
 
 const Posts = () => {
   const { posts } = useSelector((store) => store.post);
@@ -27,6 +28,7 @@ const Posts = () => {
         setLoading(false);
         console.log(error.response.data.message);
         if (error.response.data.message === "Unauthrized") {
+          dispatch(setCurrentUser(null))
           neviget("/login");
         }
       }
