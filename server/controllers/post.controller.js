@@ -50,7 +50,7 @@ export const getPosts = async (req, res) => {
         path: "userId",
         select: "-password",
       })
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .skip(startIndex)
       .limit(limit);
 
