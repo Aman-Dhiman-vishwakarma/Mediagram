@@ -7,7 +7,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
     cors:{
-        origin:"https://mediagram-6upe.onrender.com",
+        origin:"http://localhost:5173",
         methods:["GET", "POST"]
     }
 });

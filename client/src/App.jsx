@@ -100,7 +100,7 @@ const dispatch = useDispatch();
   const {socket} = useSelector((store)=>store.socket)
   useEffect(()=>{
     if (currentUser) {
-      const socketio = io("http://localhost:8000", {
+      const socketio = io("/", {
         query:{
           userId:currentUser?._id
         },
